@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package products;
+
+option go_package = "./products";
+
+service ProductsService {
+    rpc CreateProducts (ProductRequest) returns (ProductResponse);
+    rpc GetAllProducts (NoParams) returns (stream Product);
+    rpc GetProductById (ProductId) returns (ProductResponse);
+    rpc UpdateProduct (Product) returns (Count);
+    rpc DeleteProduct (ProductId) returns (Count);
+}
+
+message NoParams{}
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string motto = 3;
+    string link = 4;
+    string category = 5;
+    string description = 6;
+    string imageLink = 7;
+}
+
+message ProductId {
+    string id = 1;
+}
+
+message ProductRequest {
+    Product productEntry = 1;
+}
+
+message Count {
+    string count = 1;
+}
+
+message ProductResponse {
+    Product response = 1;
+}
