@@ -11,7 +11,7 @@ import (
 
 // here should be the grpc handlers
 type ProductsServer struct {
-	products.UnimplementedProductsServiceServer
+	products.ProductsServiceServer
 }
 
 func (p *ProductsServer) CreateProducts(ctx context.Context, req *products.ProductRequest) (*products.ProductResponse, error) {
@@ -39,6 +39,10 @@ func (p *ProductsServer) CreateProducts(ctx context.Context, req *products.Produ
 	if err != nil {
 		return nil, err
 	}
+
+	// initialize new instance to be able to access its methods
+	app := Config{}
+	app.SendProductToRabbitmq(entry)
 
 	insertedProduct := &products.Product{
 		Id:          fmt.Sprintf("%v", entry.ID),
